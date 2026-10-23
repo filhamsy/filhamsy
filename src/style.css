@@ -1,0 +1,165 @@
+:root {
+  --paper: #f1efe9;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  min-width: 280px;
+  background: var(--paper);
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.experience {
+  position: relative;
+  height: 400vh;
+  min-height: 400vh;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  overflow: hidden;
+  background: var(--paper);
+  isolation: isolate;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  pointer-events: none;
+}
+
+.fallback__surface,
+.fallback__portrait,
+.fallback__butterfly {
+  position: absolute;
+  inset: 0;
+}
+
+.fallback__surface {
+  z-index: 0;
+  opacity: var(--fb-surface, 0);
+  background: url('/assets/butterfly-surround.png') repeat-x center / auto 100%;
+}
+
+.fallback__portrait {
+  z-index: 1;
+  opacity: var(--fb-portrait, 1);
+}
+
+.fallback__butterfly {
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 5vh 3vw;
+  opacity: var(--fb-butterfly, 0);
+}
+
+.fallback img {
+  display: block;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.fallback__portrait img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, 133.333333vh);
+  height: max(100vh, 75vw);
+  transform: translate(-51.5%, -43%);
+}
+
+.fallback__butterfly img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stage__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms ease;
+}
+
+html.gpu-ready .stage__canvas {
+  opacity: 1;
+}
+
+html.webgl-off .stage__canvas,
+html.context-lost .stage__canvas {
+  display: none;
+}
+
+.mark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  display: block;
+  width: min(70vw, 72vh);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: invert(1) contrast(1.08);
+  mix-blend-mode: difference;
+}
+
+.mark img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@media (max-width: 600px) {
+  .mark {
+    width: min(88vw, 68vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage__canvas {
+    transition: none;
+  }
+}

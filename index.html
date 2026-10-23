@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f1efe9" />
+    <meta
+      name="description"
+      content="FILHAMSY — original artwork. A silhouette portrait liquifies into a full-color butterfly, revealing the surrounding artwork outward."
+    />
+    <meta name="color-scheme" content="light" />
+    <title>FILHAMSY — Original Artwork</title>
+
+    <link rel="icon" href="./assets/mark.png" type="image/png" />
+    <link rel="preload" as="image" href="./assets/portrait-instant.jpg" fetchpriority="high" />
+    <link rel="preload" as="image" href="./assets/mark.png" />
+
+    <!-- Minimal critical treatment: the HTML portrait is visible before the
+         application stylesheet or any GPU work has arrived. :where() keeps every
+         rule at zero specificity so the main sheet always wins, regardless of
+         how the build orders the stylesheet link. -->
+    <style>
+      :where(html),
+      :where(body) {
+        margin: 0;
+        background: #f1efe9;
+      }
+      :where(.stage) {
+        position: fixed;
+        inset: 0;
+        margin: 0;
+        overflow: hidden;
+        background: #f1efe9;
+      }
+      :where(.fallback, .fallback__portrait, .fallback__butterfly, .stage__canvas) {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      :where(.fallback__surface) {
+        opacity: 0;
+      }
+      :where(.fallback__portrait) {
+        opacity: 1;
+      }
+      :where(.fallback__butterfly) {
+        opacity: 0;
+      }
+      :where(.fallback__portrait, .fallback__butterfly) img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      :where(.stage__canvas) {
+        opacity: 0;
+      }
+      :where(.mark) {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="experience" id="experience">
+      <figure class="stage" id="artwork" aria-labelledby="artwork-caption">
+        <figcaption class="sr-only" id="artwork-caption">
+          FILHAMSY, original artwork. A high-contrast portrait liquifies into a
+          stationary, full-color butterfly, then reveals its textured surroundings outward.
+          The sequence plays automatically; scroll to control it or reverse to return.
+        </figcaption>
+
+        <div class="fallback" data-fallback aria-hidden="true">
+          <div class="fallback__surface"></div>
+          <div class="fallback__portrait">
+            <img
+              src="./assets/portrait-instant.jpg"
+              alt=""
+              data-asset="portrait"
+              width="960"
+              height="720"
+              decoding="async"
+              fetchpriority="high"
+              draggable="false"
+            />
+          </div>
+          <div class="fallback__butterfly">
+            <img
+              src="./assets/butterfly-fallback.webp"
+              alt=""
+              data-asset="butterfly"
+              width="520"
+              height="788"
+              decoding="async"
+              fetchpriority="low"
+              draggable="false"
+            />
+          </div>
+        </div>
+
+        <canvas
+          class="stage__canvas"
+          id="art-canvas"
+          width="1"
+          height="1"
+          aria-hidden="true"
+        ></canvas>
+
+        <div class="mark" aria-hidden="true">
+          <img
+            src="./assets/mark.png"
+            alt=""
+            width="805"
+            height="834"
+            decoding="async"
+            draggable="false"
+          />
+        </div>
+
+        <p
+          class="sr-only"
+          id="stage-status"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></p>
+      </figure>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
